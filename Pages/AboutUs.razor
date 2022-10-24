@@ -1,0 +1,26 @@
+@page "/about-us"
+@inject IJSRuntime JSRunTime
+
+<div class="about-us">
+  <h1 class="about-us-title">About Us</h1>
+
+  <div class="about-us__container">
+    <div class="about-us__title">Who we are?</div>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam asperiores harum corporis quidem maxime consectetur dolores mollitia corrupti laudantium eum nobis, id numquam natus nemo, quae omnis consequatur! Error eaque cupiditate quis suscipit earum eum, a illum rerum quod voluptatum quisquam doloribus, est reiciendis qui, perspiciatis porro odio? Cupiditate, adipisci.</p>
+    <div class="about-us__subtitle">What makes us special?</div>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed illo saea quaerat accusantium quisquam magnam facilis et, nisi, accusamus, fuga inventore itaque. Dolorum et non nam ipsa a assumenda! Quibusdam nihil nam fuga natus commodi rem quod provident eos voluptas?</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex error, illum iste earum repudiandae minima mollitia aspernatur ea assumenda ipsam totam sit eligendi hic illo voluptatibus praesentium accusantium rerum aut!</p>
+    <p>@text</p>
+    <div class="about-us__buttons">
+      <div class="about-us__click" @onclick="newPromptJS">Click here to call JS</div>
+    </div>
+  </div>
+</div>
+
+@code {
+  string? text;
+  async Task newPromptJS()
+  {
+    text = await JSRunTime.InvokeAsync<string>("newPromptJS");
+  }
+}

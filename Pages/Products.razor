@@ -1,0 +1,55 @@
+﻿@page "/products"
+@using Models
+@using Services
+@inject IProductService ProductService
+@inject IJSRuntime JSRunTime
+@inject IToastService ToastService
+
+<h1 class="products_title">Products</h1>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="products">
+    <div class="products-container">
+        @foreach (var product in products)
+        {
+            <div class="product-card">
+                <div class="product-card__img-container">
+                    <img src="@product.Image" alt="@product.Title">
+                </div>
+
+                <div class="product-card__data">
+                    <div class="product-card__tag">@product.Category</div>
+                    <div class="product-card__title">@product.Title</div>
+                    <div class="product-card__footer">
+                        <div class="product-card__price">@product.Price$</div>
+                        <div class="product-card__btn-add" @onclick="@(()=>AddToCart(product))">Add to Cart</div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>
+<BlazoredToasts />
+}
+@code {
+    IEnumerable<Product> products = new List<Product>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllProducts();
+    }
+
+    public async Task AddToCart(Product producto)
+    {
+        string prod = System.Text.Json.JsonSerializer.Serialize(producto);
+        await JSRunTime.InvokeVoidAsync("localStorage.setItem","productos",prod);
+        ToastService.ShowSuccess(producto.Title, "Added to cart");
+    }
+}
